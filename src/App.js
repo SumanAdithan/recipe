@@ -7,6 +7,7 @@ import RecipeList from './components/RecipeList/RecipeList';
 const App = () => {
     const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         const fetchRecipesData = async () => {
@@ -21,13 +22,19 @@ const App = () => {
         fetchRecipesData();
     }, []);
 
+    const filteredRecipe = recipes.filter((rec) =>
+        rec.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const recipesToDisplay = searchQuery ? filteredRecipe : recipes;
+
     return (
         <div className='App'>
-            <Header title={'Recipe App'} />
+            <Header title={'Recipe App'} setSearchQuery={setSearchQuery} />
             {loading ? (
                 <Loader name={'recipe is loading...!'} />
             ) : (
-                <RecipeList recipes={recipes} />
+                <RecipeList recipes={recipesToDisplay} />
             )}
         </div>
     );

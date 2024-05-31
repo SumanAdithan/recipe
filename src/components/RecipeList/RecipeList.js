@@ -4,9 +4,16 @@ import { Link } from 'react-router-dom';
 import cx from 'classnames';
 
 const RecipeList = ({ recipes = [] }) => {
-    return (
-        <div className={styles.recipeList}>
-            <h3 className={styles.title}>Check out these recipes</h3>
+    const checkForRecipes = () => {
+        if (recipes.length === 0) {
+            return <div>No recipes Found, search for different item</div>;
+        } else {
+            return renderList();
+        }
+    };
+
+    const renderList = () => {
+        return (
             <div className={styles.list}>
                 {recipes.map((recipe, i) => (
                     <Link
@@ -38,6 +45,13 @@ const RecipeList = ({ recipes = [] }) => {
                     </Link>
                 ))}
             </div>
+        );
+    };
+
+    return (
+        <div className={styles.recipeList}>
+            <h3 className={styles.title}>Check out these recipes</h3>
+            {checkForRecipes()}
         </div>
     );
 };
